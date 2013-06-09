@@ -112,9 +112,13 @@ public class ProviderAPI extends IntentService {
 	}
 
 	private boolean downloadJsonFiles(Bundle task) {
-		String cert_url = task.getString(ConfigHelper.MAIN_CERT_KEY);
-		String eip_service_json_url = task.getString(ConfigHelper.EIP_SERVICE_KEY);
+
+		// XXX rewrite w/ rewrite of above && ConfigurationWizard
+		//String provider_name = task.getString(ConfigHelper.provider_key);\
+		String cert_url = ( task.get(ConfigHelper.MAIN_CERT_KEY) != null ) ? (String) task.get(ConfigHelper.MAIN_CERT_KEY) : preferences.getString(ConfigHelper.CERT_KEY, "");;
+		String eip_service_json_url = ( task.get(ConfigHelper.EIP_SERVICE_KEY) != null ) ? (String) task.get(ConfigHelper.EIP_SERVICE_KEY) : preferences.getString(ConfigHelper.EIP_SERVICE_KEY, "");
 		boolean danger_on = task.getBoolean(ConfigHelper.DANGER_ON);
+		
 		try {
 			String cert_string = getStringFromProvider(cert_url, danger_on);
 			ConfigHelper.saveSharedPref(ConfigHelper.MAIN_CERT_KEY, cert_string);
